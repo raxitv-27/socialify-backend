@@ -34,7 +34,6 @@ jobs:
             --region asia-south1 \
             --platform managed \
             --allow-unauthenticated \
-            --set-env-vars PORT=8080 \
             --set-env-vars NODE_ENV=production \
             --set-env-vars DB_HOST=/cloudsql/socialify_backend:asia-south1:socialify-db \
             --set-env-vars DB_PORT=5432 \
