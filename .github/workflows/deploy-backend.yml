@@ -41,4 +41,4 @@ jobs:
             --set-env-vars DB_USER=raxit \
             --set-env-vars GCS_BUCKET_NAME=socialify-assets \
             --set-secrets "DB_PASSWORD=db_password:latest" \
-            --add-cloudsql-instances socialify_backend:asia-south1:socialify-db
+            --add-cloudsql-instances socialify-backend:asia-south1:socialify-db
