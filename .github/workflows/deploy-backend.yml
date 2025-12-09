@@ -1,0 +1,45 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Setup gcloud
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ secrets.GCP_PROJECT_ID }}
+
+      - name: Build backend image using Cloud Build
+        run: |
+          gcloud builds submit backend \
+            --tag asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/socialify-backend/socialify-backend:${{ github.sha }}
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy social-backend \
+            --image asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/socialify-backend/socialify-backend:${{ github.sha }} \
+            --region asia-south1 \
+            --platform managed \
+            --allow-unauthenticated \
+            --set-env-vars PORT=8080 \
+            --set-env-vars NODE_ENV=production \
+            --set-env-vars DB_HOST=/cloudsql/socialify_backend:asia-south1:socialify-db \
+            --set-env-vars DB_PORT=5432 \
+            --set-env-vars DB_NAME=socialify_db \
+            --set-env-vars DB_USER=raxit \
+            --set-env-vars GCS_BUCKET_NAME=socialify-assets \
+            --set-secrets "DB_PASSWORD=db_password:latest" \
+            --add-cloudsql-instances socialify_backend:asia-south1:socialify-db
