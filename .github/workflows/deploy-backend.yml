@@ -24,7 +24,7 @@ jobs:
 
       - name: Build backend image using Cloud Build
         run: |
-          gcloud builds submit socialify-backend \
+          gcloud builds submit . \
             --tag asia-south1-docker.pkg.dev/${{ secrets.GCP_PROJECT_ID }}/socialify-backend/socialify-backend:${{ github.sha }}
 
       - name: Deploy to Cloud Run
