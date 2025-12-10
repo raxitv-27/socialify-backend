@@ -35,10 +35,10 @@ jobs:
             --platform managed \
             --allow-unauthenticated \
             --set-env-vars NODE_ENV=production \
-            --set-env-vars DB_HOST=/cloudsql/socialify-backend:asia-south1:socialify-db \
+            --set-env-vars DB_HOST=/cloudsql/socialify-backend:asia-south1:socialify \
             --set-env-vars DB_PORT=5432 \
             --set-env-vars DB_NAME=socialify_db \
             --set-env-vars DB_USER=raxit \
             --set-env-vars GCS_BUCKET_NAME=socialify-assets \
             --set-secrets "DB_PASSWORD=db_password:latest" \
-            --add-cloudsql-instances socialify-backend:asia-south1:socialify-db
+            --add-cloudsql-instances socialify-backend:asia-south1:socialify
