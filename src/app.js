@@ -14,13 +14,22 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("✅ Database connected successfully");
+  })
+  .catch((err) => {
+    console.error("Database connection failed:", err.message);
+  });
+
 app.get("/health", async (req, res) => {
   try {
     await sequelize.authenticate();
     res.json({ status: "ok", db: "connected" });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ status: "error", message: "DB connection failed" });
+    console.error("Health check DB error:", err.message);
+    res.json({ status: "degraded", db: "disconnected", error: err.message });
   }
 });
 
