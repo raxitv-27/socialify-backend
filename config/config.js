@@ -23,11 +23,11 @@ module.exports = {
     username: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME,
-    host: process.env.DB_HOST,
+    host: process.env.DB_SOCKET_PATH,
     port: process.env.DB_PORT,
     dialect: process.env.DB_DIALECT || "postgres",
     dialectOptions: {
-      socketPath: process.env.DB_HOST,
+      socketPath: process.env.DB_SOCKET_PATH,
     },
     logging: false,
   },
